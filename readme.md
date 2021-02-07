@@ -86,14 +86,20 @@ Creating `~/.cloudflared/config.yml` file with variables you assigned
 cat > ~/.cloudflared/config.yml <<EOF
 tunnel: $tunnelid
 credentials-file: $credfile
-hostname: $hostname
-url: $localhost
+originRequest:
+  connectTimeout: 30s
+
 metrics: $metrics
 #tag: $cftag
 pidfile: $cfpid
 autoupdate-freq: $cfupdatettl
 loglevel: info
 logfile: /var/log/cloudflared.log
+
+ingress:
+  - hostname: $hostname
+    service: $localhost
+  - service: http_status:404
 EOF
 ```
 
