@@ -8,7 +8,7 @@ Based on documentation outlined at:
 
 ## Step 1. CSF Firewall Whitelisting
 
-Place in /etc/csf/csf.allow allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844. 
+This is a one time task. Place in /etc/csf/csf.allow allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844. 
 
 First command backs up csf.allow and then appends to csf.allow the CSF Firewall allow list to CF Argo Tunnel IPs for destination port 7844.
 
