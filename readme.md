@@ -1,6 +1,6 @@
 The below instructions for Argo Tunnel connecting to self hosted application are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall.
 
-# Instructions For Cloudlared / Argo Tunnel Usage For Centmin Mod LEMP Stack
+## Instructions For Cloudlared / Argo Tunnel Usage For Centmin Mod LEMP Stack
 
 Based on documentation outlined at:
 
@@ -34,7 +34,7 @@ restart CSF Firewall
 csf -ra
 ```
 
-# Step 2. Install Cloudflared Binary
+## Step 2. Install Cloudflared Binary
 
 ```
 curl -4s https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.tgz | tar xzC /usr/local/bin
@@ -54,7 +54,7 @@ cloudflared --version
 cloudflared version 2021.2.1 (built 2021-02-04-1528 UTC)
 ```
 
-# Step 3. Create Argo Tunnel
+## Step 3. Create Argo Tunnel
 
 * You can name your Argo Tunnels whatever you want, here we'll use the intended hostname/subdomain as the name of the Argo Tunnel.
 * Pipe the tunnel create command output into a log file named `$hostname-tunnel-create.log` so can use the log file to find the tunnel id and credential file needed to install cloudflared as a service and assign them to variables.
@@ -67,7 +67,7 @@ tunnelid=$(cloudflared tunnel list -o json | jq -r --arg h $hostname '.[] | sele
 credfile="/root/.cloudflared/${tunnelid}.json"
 ```
 
-# Step 4. Creating cloudflared YAML Config File
+## Step 4. Creating cloudflared YAML Config File
 
 Create the [cloudflared YAML config file](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/config) at `~/.cloudflared/config.yml` by populating the variables below
 
@@ -104,7 +104,7 @@ cloudflared tunnel --config ~/.cloudflared/config.yml run tun.domain.com
 expected string slice found string for tag
 ```
 
-# Step 5. Create Cloudflare CNAME DNS Record To Route Argo Tunnel
+## Step 5. Create Cloudflare CNAME DNS Record To Route Argo Tunnel
 
 As per documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/routing-to-tunnel/dns, you can create the CNAME DNS record via command line
 
@@ -124,7 +124,7 @@ or using `$tunnelid` variable you populated in step 3 above.
 cloudflared tunnel route dns $tunnelid tun.domain.com
 ```
 
-# Step 6. Install cloudflared Service on CentOS 7
+## Step 6. Install cloudflared Service on CentOS 7
 
 Install cloudflared service, start it and ensure it starts on server reboots. You can check the cloudflared log file at `/var/log/cloudflared.log`.
 
@@ -148,7 +148,7 @@ service cloudflared status
 
 # Listing Argo Tunnels Created
 
-Above method used via 'cloudflared` will not list the created Argo Tunnel in Cloudflare dashboard's Traffic > Argo Tunnel section in web GUI.
+Above method used via `cloudflared` will not list the created Argo Tunnel in Cloudflare dashboard's Traffic > Argo Tunnel section in web GUI.
 
 To list your created Argo Tunnels use either command:
 
