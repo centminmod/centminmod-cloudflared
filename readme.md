@@ -173,3 +173,68 @@ or
 ```
 cloudflared tunnel list -o json
 ```
+
+## Centmin Mod Nginx Access Logs
+
+Argo Tunnel by default [won't pass on the visitor's real IP address](https://developers.cloudflare.com/cloudflare-one/faq/tunnel#does-argo-tunnel-send-visitor-ips-to-my-origin) to Centmin Mod Nginx. Instead it will show up like
+
+```
+tail -1 /home/nginx/domains/tun.domain.com/log/access.log 
+127.0.0.1 - - [07/Feb/2021:22:39:12 +0000] "GET /?test HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36 OPR/74.0.3911.75"
+```
+
+Centmin Mod Nginx config file at `/usr/local/nginx/conf/nginx.conf` has additional Nginx log format options which can log Argo Tunnel received visitor's real IP addresses via `$http_x_forwarded_for` field.
+
+Example for log format named `cf_custom4`
+
+```
+log_format cf_custom4 '$remote_addr - $remote_user [$time_local] $request '
+              '"$status" $body_bytes_sent "$http_referer" '
+              '"$http_user_agent" "$http_x_forwarded_for" "$gzip_ratio" "$brotli_ratio"'
+              ' "$connection" "$connection_requests" "$request_time" $http_cf_ray '
+              '$ssl_protocol $ssl_cipher $http_content_length $http_content_encoding $request_length';
+```
+
+You can alter and create your own custom log formats too.
+
+To enable this, you need to edit Nginx vhost config files include file `/usr/local/nginx/conf/cloudflare.conf` in `/usr/local/nginx/conf/conf.d/tun.domain.com.ssl.conf` and/or `/usr/local/nginx/conf/conf.d/tun.domain.com.conf`. This enables [Cloudflare's documented restoration of real visitor IP addresses](https://support.cloudflare.com/hc/en-us/articles/200170786-Restoring-original-visitor-IPs-Logging-visitor-IP-addresses-with-mod-cloudflare-).
+
+```
+  # uncomment cloudflare.conf include if using cloudflare for
+  # server and/or vhost site
+  include /usr/local/nginx/conf/cloudflare.conf;
+```
+
+And also add a second access log line assigning the log format named `cf_custom4`
+
+```
+  access_log /home/nginx/domains/tun.domain.com/log/cf-ssl-access.log cf_custom4;
+```
+
+to existing one so it looks like
+
+```
+  access_log /home/nginx/domains/tun.domain.com/log/access.log combined buffer=256k flush=5m;
+  error_log /home/nginx/domains/tun.domain.com/log/error.log;
+  access_log /home/nginx/domains/tun.domain.com/log/cf-access.log cf_custom4;
+```
+
+Then restart Nginx
+
+```
+service nginx restart
+```
+
+Or via Centmin Mod command shortcut
+
+```
+ngxrestart
+```
+
+Visit Argo Tunnel site and then check the new access log and see the `$http_x_forwarded_for` field record the real visitor IP = `122.xxx.xxx.xxx`
+
+```
+tail -1 /home/nginx/domains/tun.domain.com/log/cf-access.log
+
+127.0.0.1 - - [07/Feb/2021:22:39:12 +0000] GET /?test HTTP/1.1 "304" 0 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36 OPR/74.0.3911.75" "122.xxx.xxx.xxx" "-" "-" "1" "1" "0.000" 61e09b05e97c32a4-MIA - - - - 1876
+```
