@@ -1,6 +1,6 @@
 The below instructions for Argo Tunnel connecting to self hosted application are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall.
 
-## Instructions For Cloudlared / Argo Tunnel Usage For Centmin Mod LEMP Stack
+## Instructions For Argo Tunnel Usage For Centmin Mod LEMP Stack
 
 Based on documentation outlined at:
 
@@ -146,7 +146,7 @@ or
 service cloudflared status
 ```
 
-# Listing Argo Tunnels Created
+## Listing Argo Tunnels Created
 
 Above method used via `cloudflared` will not list the created Argo Tunnel in Cloudflare dashboard's Traffic > Argo Tunnel section in web GUI.
 
