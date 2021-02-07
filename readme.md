@@ -110,6 +110,14 @@ cloudflared tunnel --config ~/.cloudflared/config.yml run tun.domain.com
 expected string slice found string for tag
 ```
 
+Validate ingress rules
+
+```
+cloudflared tunnel ingress validate
+Validating rules from /root/.cloudflared/config.yml
+OK
+```
+
 ## Step 5. Create Cloudflare CNAME DNS Record To Route Argo Tunnel
 
 As per documentation https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/routing-to-tunnel/dns, you can create the CNAME DNS record via command line
