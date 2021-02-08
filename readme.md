@@ -8,9 +8,9 @@ Based on documentation outlined at:
 
 ## Step 1. CSF Firewall Whitelisting
 
-This is a one time task. Place in /etc/csf/csf.allow allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844. 
+This is a one time task. Place in `/etc/csf/csf.allow` allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844. 
 
-First command backs up csf.allow and then appends to csf.allow the CSF Firewall allow list to CF Argo Tunnel IPs for destination port 7844.
+First command backs up `/etc/csf/csf.allow` and then appends to csf.allow the CSF Firewall allow list to CF Argo Tunnel IPs for destination port 7844.
 
 ```
 cp -a /etc/csf/csf.allow /etc/csf/csf.allow.backup.before-argo-tunnel
@@ -73,7 +73,7 @@ Create the [cloudflared YAML config file](https://developers.cloudflare.com/clou
 
 ```
 hostname=tun.domain.com
-localhost=http://localhost:80
+localhost=https://localhost:443
 metrics=localhost:5432
 cftag='cmm=test'
 cfpid='/var/run/cmm-test-argo.pid'
@@ -86,6 +86,7 @@ Creating `~/.cloudflared/config.yml` file with variables you assigned
 cat > ~/.cloudflared/config.yml <<EOF
 tunnel: $tunnelid
 credentials-file: $credfile
+protocol: http2
 originRequest:
   connectTimeout: 30s
 
@@ -99,6 +100,9 @@ logfile: /var/log/cloudflared.log
 ingress:
   - hostname: $hostname
     service: $localhost
+    originRequest:
+      connectTimeout: 10s
+      noTLSVerify: true
   - service: http_status:404
 EOF
 ```
