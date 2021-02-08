@@ -1,6 +1,15 @@
-The below instructions for Argo Tunnel connecting to self hosted application are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall.
+The below instructions for setting up a [Cloudflare Argo Tunnel](https://blog.cloudflare.com/tag/argo-tunnel/) connection to self hosted application/origin server are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall. Cloudflare Argo Tunnel is a private connection between your web server and Cloudflare which makes it so that only traffic that routes through Cloudflare can reach your server or web application without needing a publicly routable IP address.
 
-The guide will outline both manual (with cloudflared) and automated methods (via [Cloudflare API with Cloudflare API Tokens](https://api.cloudflare.com/#argo-tunnel-properties)).
+Argo Tunnel connects your web server to the Cloudflare network over an encrypted Tunnel. An example request follows these steps:
+
+* A visitor makes a request to tunnel.yourdomain.com.
+* The DNS lookup resolves to a Cloudflare network address.
+* The visitor connects to the closest Cloudflare edge PoP via Anycast.
+* Cloudflare routes the visitor through a special PoP-to-PoP route called [Argo Smart Routing](https://www.cloudflare.com/en-gb/products/argo-smart-routing/) and connects them to a Cloudflare edge PoP that has an established persistent connection to the daemon (`cloudflared`) running on the visitor's web server.
+* The request is routed to the `cloudflared` instance running on your server. The connection between `cloudflared` and the Cloudflare edge is a long-lived persistent HTTP2 connection encrypted with TLS. To keep the connection alive, `cloudflared` sends a heartbeat to the edge in the form of a ping frame over HTTP2. If the connection is dropped, the `cloudflared` client re-establishes the connection with Cloudflare. `cloudflared` connects to Cloudflare on port 7844. All packets between Cloudflare and the tunneled web server use stream multiplexing over HTTP2. In HTTP2, each request/response pair is called a Stream and given a unique Stream ID so that these streams can be “multiplexed” or sent asynchronously over the same connection.
+* The Tunnel client forwards the request to your web service.
+
+The guide will outline both manual (with `cloudflared`) and automated methods (via [Cloudflare API with Cloudflare API Tokens](https://api.cloudflare.com/#argo-tunnel-properties)).
 
 * [Instructions For Argo Tunnel Usage For Centmin Mod LEMP Stack](#instructions-for-argo-tunnel-usage-for-centmin-mod-lemp-stack)
 * [CSF Firewall Whitelisting](#csf-firewall-whitelisting)
