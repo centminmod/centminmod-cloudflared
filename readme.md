@@ -36,9 +36,11 @@ Based on documentation outlined at:
 
 * https://developers.cloudflare.com/cloudflare-one/connections/connect-apps
 
+and [Cloudflare Argo Tunnel FAQ documentation](https://developers.cloudflare.com/cloudflare-one/faq/tunnel/)
+
 # CSF Firewall Whitelisting
 
-This is a one time task. Place in `/etc/csf/csf.allow` allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844. 
+This is a one time task. Place in `/etc/csf/csf.allow` allow file whitelisting for Cloudflare route1/2 hostname's IP addresses to allow egress TCP traffic on destination port 7844 as per [Cloudflare Argo Tunnel FAQ documentation](https://developers.cloudflare.com/cloudflare-one/faq/tunnel/#what-are-the-ports-and-ips-used-by-cloudflared).
 
 First command backs up `/etc/csf/csf.allow` and then appends to csf.allow the CSF Firewall allow list to CF Argo Tunnel IPs for destination port 7844.
 
