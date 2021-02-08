@@ -1,25 +1,25 @@
 The below instructions for Argo Tunnel connecting to self hosted application are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall.
 
-The guide will outline both manual (with cloudflared) and automated methods (via [Cloudflare API with Cloudflare API Tokens(https://api.cloudflare.com/#argo-tunnel-properties)]).
+The guide will outline both manual (with cloudflared) and automated methods (via [Cloudflare API with Cloudflare API Tokens](https://api.cloudflare.com/#argo-tunnel-properties)).
 
-* [Instructions For Argo Tunnel Usage For Centmin Mod LEMP Stack](https://github.com/centminmod/centminmod-cloudflared#instructions-for-argo-tunnel-usage-for-centmin-mod-lemp-stack)
-* [CSF Firewall Whitelisting](https://github.com/centminmod/centminmod-cloudflared#csf-firewall-whitelisting)
-* Create Centmin Mod Nginx Vhost Sites
-* Manual Argo Tunnel Setup with cloudflared
-  * [Step 1. Install Cloudflared Binary](https://github.com/centminmod/centminmod-cloudflared#step-1-install-cloudflared-binary)
-  * [Step 2. Create Argo Tunnel](https://github.com/centminmod/centminmod-cloudflared#step-2-create-argo-tunnel)
-  * [Step 3. Creating cloudflared YAML Config File](https://github.com/centminmod/centminmod-cloudflared#step-3-creating-cloudflared-yaml-config-file)
-  * [Step 4. Create Cloudflare CNAME DNS Record To Route Argo Tunnel](https://github.com/centminmod/centminmod-cloudflared#step-4-create-cloudflare-cname-dns-record-to-route-argo-tunnel)
-  * [Step 5. Install cloudflared Service on CentOS 7](https://github.com/centminmod/centminmod-cloudflared#step-5-install-cloudflared-service-on-centos-7)
-* Automated Argo Tunnel Setup with Cloudflare API
-  * Step 1. Create Cloudflare API Token with Argo Tunnel Write Permission
-  * Step 2. Create Argo Tunnel
-  * Step 3. Create Argo Tunnel CNAME DNS Record
-  * Step 4. Create Argo Tunnel Credentials JSON File
-  * Step 5. Create Argo Tunnel YAML Config File
-  * Step 6. Install cloudflared & CentOS 7 Service
-* [Listing Argo Tunnels Created](https://github.com/centminmod/centminmod-cloudflared#listing-argo-tunnels-created)
-* [Centmin Mod Nginx Access Logs](https://github.com/centminmod/centminmod-cloudflared#centmin-mod-nginx-access-logs)
+* [Instructions For Argo Tunnel Usage For Centmin Mod LEMP Stack](#instructions-for-argo-tunnel-usage-for-centmin-mod-lemp-stack)
+* [CSF Firewall Whitelisting](#csf-firewall-whitelisting)
+* [Create Centmin Mod Nginx Vhost Sites](#create-centmin-mod-nginx-vhost-sites)
+* [Manual Argo Tunnel Setup with cloudflared](#manual-argo-tunnel-setup-with-cloudflared)
+  * [Step 1. Install Cloudflared Binary](#step-1-install-cloudflared-binary)
+  * [Step 2. Create Argo Tunnel](#step-2-create-argo-tunnel)
+  * [Step 3. Creating cloudflared YAML Config File](#step-3-creating-cloudflared-yaml-config-file)
+  * [Step 4. Create Cloudflare CNAME DNS Record To Route Argo Tunnel](#step-4-create-cloudflare-cname-dns-record-to-route-argo-tunnel)
+  * [Step 5. Install cloudflared Service on CentOS 7](#step-5-install-cloudflared-service-on-centos-7)
+* [Automated Argo Tunnel Setup with Cloudflare API](#automated-argo-tunnel-setup-with-cloudflare-api)
+  * [Step 1. Create Cloudflare API Token with Argo Tunnel Write Permission](#step-1-create-cloudflare-api-token-with-argo-tunnel-write-edit-permission)
+  * [Step 2. Create Argo Tunnel](#step-2-create-argo-tunnel-1)
+  * [Step 3. Create Argo Tunnel CNAME DNS Record](#step-3-create-argo-tunnel-cname-dns-record)
+  * [Step 4. Create Argo Tunnel Credentials JSON File](#step-4-create-argo-tunnel-credentials-json-file)
+  * [Step 5. Create Argo Tunnel YAML Config File](#step-5-create-argo-tunnel-yaml-config-file)
+  * [Step 6. Install cloudflared & CentOS 7 Service](#step-6-install-cloudflared--centos-7-service)
+* [Listing Argo Tunnels Created](#listing-argo-tunnels-created)
+* [Centmin Mod Nginx Access Logs](#centmin-mod-nginx-access-logs)
 
 # Instructions For Argo Tunnel Usage For Centmin Mod LEMP Stack
 
