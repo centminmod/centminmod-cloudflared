@@ -1,4 +1,4 @@
-The below instructions for setting up a [Cloudflare Argo Tunnel](https://blog.cloudflare.com/tag/argo-tunnel/) connection to self hosted application/origin server are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall. Cloudflare Argo Tunnel is a private connection between your web server and Cloudflare which makes it so that only traffic that routes through Cloudflare can reach your server or web application without needing a publicly routable IP address.
+The below instructions for setting up a [Cloudflare Argo Tunnel](https://blog.cloudflare.com/tag/argo-tunnel/) connection to self hosted application/origin server are tailored to Centmin Mod LEMP stack users running CentOS 7 running CSF Firewall. Cloudflare Argo Tunnel is a private connection between your web server and Cloudflare which makes it so that only traffic that routes through Cloudflare can reach your server or web application without needing a publicly routable IP address. Argo Tunnel allows you to expose your web server to the internet without having to open routes in your firewall or setup dedicated routes.
 
 Argo Tunnel connects your web server to the Cloudflare network over an encrypted Tunnel. An example request follows these steps:
 
@@ -159,7 +159,7 @@ credfile="/root/.cloudflared/${tunnelid}.json"
 
 ## Step 3. Creating cloudflared YAML Config File
 
-Create the [cloudflared YAML config file](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/config) at `~/.cloudflared/config.yml` by populating the variables below
+Create the [cloudflared YAML config file](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/config) at `~/.cloudflared/config.yml` by populating the variables below. This configuration uses [Cloudflare Named Tunnels and Ingress Rules](https://blog.cloudflare.com/many-services-one-cloudflared/).
 
 ```
 hostname=tun.domain.com
@@ -256,7 +256,7 @@ service cloudflared status
 
 # Automated Argo Tunnel Setup with Cloudflare API
 
-Argo Tunnels can also be created via [Cloudflare API](https://api.cloudflare.com/#argo-tunnel-properties).
+Argo Tunnels can also be created via [Cloudflare API](https://api.cloudflare.com/#argo-tunnel-properties). This below outlined steps could be scripted for automatic Cloudflare Argo Tunnel creation and setup.
 
 ## Step 1. Create Cloudflare API Token with Argo Tunnel Write (Edit) Permission
 
@@ -366,7 +366,7 @@ cat ~/.cloudflared/$tunnelid.json | jq
 
 ## Step 5. Create Argo Tunnel YAML Config File
 
-Create the [cloudflared YAML config file](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/config) at `~/.cloudflared/config.yml` by populating the variables below
+Create the [cloudflared YAML config file](https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/config) at `~/.cloudflared/config.yml` by populating the variables below. This configuration uses [Cloudflare Named Tunnels and Ingress Rules](https://blog.cloudflare.com/many-services-one-cloudflared/).
 
 ```
 hostname=tun2.domain.com
